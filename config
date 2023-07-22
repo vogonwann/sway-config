@@ -25,7 +25,7 @@ include /etc/sway/config-vars.d/*
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg ~/Pictures/wallpapers/minimalistic/black5_unicat.png fill
 #
 # Example configuration:
 #
@@ -35,6 +35,7 @@ output eDP- resolution 1366x768 position 0,0
 
 # Autostart
 exec dunst
+exec nm-applet --indicator
 
 ### Idle configuration
 #
@@ -44,6 +45,11 @@ exec swayidle -w \
          timeout 300 'swaylock -f -c 000000' \
          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
          before-sleep 'swaylock -f -c 000000'
+
+# lock
+set $lock_bg ~/Pictures/wallpapers/minimalistic/black5_unicat.png
+
+bindsym Alt+l exec swaylock --hide-keyboard-layout -i $lock_bg
 
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
@@ -60,6 +66,13 @@ exec swayidle -w \
        click_method clickfinger
        middle_emulation enabled
    }
+
+   input type:keyboard {
+    xkb_layout rs,us
+    xkb_variant latin,
+    xkb_options grp:win_space_toggle
+  } 
+
 
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
@@ -212,12 +225,22 @@ bar {
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
     # status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
-    status_command while ~/.config/sway/status.sh; do sleep 1; nm-applet --indicator; done
+    status_command while ~/.config/sway/status.sh; do sleep 1; done
     colors {
         statusline #ffffff
-        background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
+        background #1e1e2e
+        inactive_workspace #1e1e2e00 #1e1e2e00 #5c5c5c
     }
+
+  tray {
+    icon_theme Papirus
+  }
 }
+
+#client.<class>         <border>  <background>    <text>      <indicator>   <child_border> 
+
+client.focused          "#70707d" "#1e1e2e"      "#ffffffaa"   "#1e1e2e" "#2c2c2c"
+client.focused_inactive "#23242a" "#b4befe"  "#666666"   "#000000"     "#999999"
+client.unfocused        "#70707d" "#fff5e5"      "#70707d"   "#000000"     "#999999"
 
 include /etc/sway/config.d/*

@@ -13,9 +13,12 @@ date_formatted=$(date "+%a %F %H:%M")
 linux_version=$(uname -r | cut -d '-' -f1)
 
 # Returns the battery status: "Full", "Discharging", or "Charging".
-battery_status=$(cat /sys/class/power_supply/BAT1/status)
+# battery_status=$(cat /sys/class/power_supply/BAT1/status)
+
+# Get keyboard layout
+keyboard_layout=$(swaymsg -t get_inputs | jq 'map(select(has("xkb_active_layout_name")))[0].xkb_active_layout_name')
 
 # Emojis and characters for the status bar
 # 💎 💻 💡 🔌 ⚡ 📁 \|
-echo $uptime_formatted ↑ $linux_version 🐧 $battery_status 🔋 $date_formatted
+echo $uptime_formatted ↑ $linux_version 🐧 $keyboard_layout ⌨️  $date_formatted
 
